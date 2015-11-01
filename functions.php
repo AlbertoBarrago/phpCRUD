@@ -11,7 +11,7 @@ $result = mysqli_query($connection, $query);
 
 if(!$result) {
   die('Query fallita' . mysqli_error());
-} 
+}
 
 }
 
@@ -23,7 +23,7 @@ $result = mysqli_query($connection, $query);
 
 if(!$result) {
   die('Query fallita' . mysqli_error());
-} 
+}
 
 while ($row = mysqli_fetch_assoc($result)) {
 $id = $row['id'];
@@ -34,9 +34,15 @@ echo "<option value='$id'>$id</option> ";
 
 function updateAll() {
 
-global $connection; 
+global $connection;
+
 $username = $_POST['username'];
 $password = $_POST['password'];
+
+//Function vs Injection  
+$username = mysqli_real_escape_string($connection, $username);
+$password = mysqli_real_escape_string($connection, $username);
+
 $id = $_POST['id'];
 
 $query = "UPDATE users SET ";
