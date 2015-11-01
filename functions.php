@@ -39,10 +39,6 @@ global $connection;
 $username = $_POST['username'];
 $password = $_POST['password'];
 
-//Function vs Injection  
-$username = mysqli_real_escape_string($connection, $username);
-$password = mysqli_real_escape_string($connection, $username);
-
 $id = $_POST['id'];
 
 $query = "UPDATE users SET ";
@@ -65,6 +61,17 @@ function createUser() {
 global $connection;
 $username = $_POST['username'];
 $password = $_POST['password'];
+
+//Function vs Injection
+$username = mysqli_real_escape_string($connection, $username);
+$password = mysqli_real_escape_string($connection, $username);
+//Encrypting password
+$hashFormat = "$2y$10$";
+$salt = "iusesomecrazystrings22";
+$hashF_and_salt = $hashFormat . $salt;
+$password = crypt($password, $hashF_and_salt);
+
+
 
 $query = "INSERT INTO users(username,password) ";
 $query .= "VALUES ('$username', '$password')";
